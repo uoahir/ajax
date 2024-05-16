@@ -1,8 +1,6 @@
 package com.ajax.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ajax.model.dto.Actor;
+import com.google.gson.Gson;
 
 /**
- * Servlet implementation class CsvDataServlet
+ * Servlet implementation class JsonEnrollTestServlet
  */
-@WebServlet("/jquery/csvdata.do")
-public class CsvDataServlet extends HttpServlet {
+@WebServlet("/json/enroll.do")
+public class JsonEnrollTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CsvDataServlet() {
+    public JsonEnrollTestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +30,18 @@ public class CsvDataServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Actor> actors = new ArrayList<>();
-		actors.add(new Actor("박보검","0104435241","parkBogum.jpg",31,183.2,false));
-		actors.add(new Actor("맷대이먼","01011232223","mattDamon.jpg",53,174.2,true));
-		actors.add(new Actor("줄리아로버츠","0104435241","juliaRoberts.jpg",58,175.2,true));
+		request.setCharacterEncoding("utf-8");
+		String data = request.getParameter("data");
+		System.out.println(data);
 		
-		String csv = "";
-		for(int i = 0; i<actors.size();i++) {
-			if(i!=0) {
-				csv+="\n";
-			}
-			csv += actors.get(i);
-		}
-		response.setContentType("text/csv;charset=utf-8");
-		response.getWriter().print(csv);
+		// 아래처럼 매칭시켜서 문자열->객채로 만들어 줄 때 ! json key값과 지정된 클래스의 필드값이 같아야 함 !! 
+		Actor a = new Gson().fromJson(data, Actor.class); // 이 전송된 데이터를 액터 클래스랑 매칭시켜라!!!!!
+		System.out.println(a.getName());
+		System.out.println(a.getAge());
+		System.out.println(a.getProfile());
+		System.out.println(a.getPhone());
+		System.out.println(a.getHeight());
+		System.out.println(a.isMarried());
 	}
 
 	/**

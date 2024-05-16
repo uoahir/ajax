@@ -5,16 +5,22 @@ public class Actor {
 	private String name;
 	private String phone;
 	private String profile;
+	private int age;
+	private double height;
+	private boolean married;
 	
 	public Actor() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public Actor(String name, String phone, String profile) {
+	
+	public Actor(String name, String phone, String profile, int age, double height, boolean married) {
 		super();
 		this.name = name;
 		this.phone = phone;
 		this.profile = profile;
+		this.age = age;
+		this.height = height;
+		this.married = married;
 	}
 
 	public String getName() {
@@ -41,10 +47,35 @@ public class Actor {
 		this.profile = profile;
 	}
 
-	@Override
-	public String toString() {
-		return name+","+phone+","+profile;
+	public int getAge() {
+		return age;
 	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public boolean isMarried() {
+		return married;
+	}
+
+	public void setMarried(boolean married) {
+		this.married = married;
+	}
+	
+	
+	
+//	public String toJson() {
+//		return "{\"name\":\""+name+""\",\"phone\"}";
+//	}
 	
 	
 }

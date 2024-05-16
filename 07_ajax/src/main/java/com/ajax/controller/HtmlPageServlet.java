@@ -34,9 +34,9 @@ public class HtmlPageServlet extends HttpServlet {
 		
 		List<Actor> actors = new ArrayList<>();
 		
-		actors.add(new Actor("박보검","0104435241","parkBogum.jpg"));
-		actors.add(new Actor("맷대이먼","01011232223","mattDamon.jpg"));
-		actors.add(new Actor("줄리아로버츠","0104435241","juliaRoberts.jpg"));
+		actors.add(new Actor("박보검","0104435241","parkBogum.jpg",31,183.2,false));
+		actors.add(new Actor("맷대이먼","01011232223","mattDamon.jpg",53,174.2,true));
+		actors.add(new Actor("줄리아로버츠","0104435241","juliaRoberts.jpg",58,175.2,true));
 		
 		request.setAttribute("actors", actors);
 		

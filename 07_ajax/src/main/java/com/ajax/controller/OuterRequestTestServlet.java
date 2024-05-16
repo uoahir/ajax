@@ -1,8 +1,10 @@
 package com.ajax.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +12,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ajax.model.dto.Actor;
-
 /**
- * Servlet implementation class CsvDataServlet
+ * Servlet implementation class OuterRequestTestServlet
  */
-@WebServlet("/jquery/csvdata.do")
-public class CsvDataServlet extends HttpServlet {
+@WebServlet("/dockers")
+public class OuterRequestTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CsvDataServlet() {
+    public OuterRequestTestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,22 +31,23 @@ public class CsvDataServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Actor> actors = new ArrayList<>();
-		actors.add(new Actor("박보검","0104435241","parkBogum.jpg",31,183.2,false));
-		actors.add(new Actor("맷대이먼","01011232223","mattDamon.jpg",53,174.2,true));
-		actors.add(new Actor("줄리아로버츠","0104435241","juliaRoberts.jpg",58,175.2,true));
-		
-		String csv = "";
-		for(int i = 0; i<actors.size();i++) {
-			if(i!=0) {
-				csv+="\n";
+		// 외부요청을 여기애서 보낵 ㅣ!!!
+		HttpURLConnection conn = (HttpURLConnection)new URL("https://gdu.co.kr").openConnection();
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));){ // inputstream 은 바이너리 방식이기 때문에 , InputStreamReader 안애 너어줘서 한글이 안깨지도록 만들어준다.
+			
+			String data ="";
+			StringBuffer sb = new StringBuffer();
+			while((data=br.readLine())!=null) {
+				sb.append(data);
 			}
-			csv += actors.get(i);
+			response.setContentType("application/json;charset=utf-8");
+			response.getWriter().print(sb);
+			
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-		response.setContentType("text/csv;charset=utf-8");
-		response.getWriter().print(csv);
+		conn.disconnect();
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
